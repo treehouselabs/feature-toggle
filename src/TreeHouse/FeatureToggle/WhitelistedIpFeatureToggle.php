@@ -2,6 +2,7 @@
 
 namespace TreeHouse\FeatureToggle;
 
+use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class WhitelistedIpFeatureToggle implements FeatureToggleInterface
@@ -26,7 +27,7 @@ class WhitelistedIpFeatureToggle implements FeatureToggleInterface
      */
     public function isEnabled(array $context)
     {
-        return in_array($context['client_ip'], $this->whitelistedIps, true);
+        return IpUtils::checkIp($context['client_ip'], $this->whitelistedIps);
     }
 
     /**
