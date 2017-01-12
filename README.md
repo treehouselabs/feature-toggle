@@ -30,6 +30,62 @@ if ($features->isEnabled('feature-x')) {
 
 ```
 
+### Behat context
+
+```yaml
+# behat.yml
+
+default:
+  suites:
+    default:
+        contexts:
+          - TreeHouse\FeatureToggle\Bridge\Behat\FeatureToggleContext:
+              cacheItemPool: '@cache_item_pool' #PSR-6 cache item pool
+```
+
+```php
+<?php
+   class Feature
+   {
+       private $features;
+
+       public function __construct(FeatureToggleCollectionInterface $features) {
+           $this->features = $features;
+       }
+
+       public function indexAction()
+       {
+           if ($this->features->isEnabled('feature-y')) {
+               return 'Enabled!';
+           }
+
+           return 'Disabled!';
+       }
+   }
+
+   $toggleCollection = new SessionFeatureToggleCollection();
+   $toggleCollection->setCacheItemPool($psr6CacheItemPool);
+
+   // Overwrite the FeatureToggleCollection with the SessionFeatureToggleCollection in test env
+   new Feature($toggleCollection);
+```
+
+```yaml
+# feature-y.feature
+
+Feature: Feature-Y
+
+  Scenario: Feature-Y is enabled
+    Given the feature toggle "feature-y" is enabled
+    And I am on the homepage
+    Then I should see "Enabled!"
+
+  Scenario: Feature-Y is disabled
+#   Given the feature toggle "feature-y" is disabled (default)
+    Given I am on the homepage
+    Then I should see "Disabled!"
+```
+
 
 ## Testing
 
