@@ -5,7 +5,7 @@ namespace TreeHouse\FeatureToggle\Bridge\Behat;
 use Psr\Cache\CacheItemPoolInterface;
 use TreeHouse\FeatureToggle\FeatureToggleCollection;
 
-class SessionFeatureToggleCollection extends FeatureToggleCollection
+class CacheFeatureToggleCollection extends FeatureToggleCollection
 {
     /**
      * @var CacheItemPoolInterface
@@ -19,7 +19,7 @@ class SessionFeatureToggleCollection extends FeatureToggleCollection
     {
         $item = $this->cacheItemPool->getItem('feature-toggles');
 
-        return in_array($name, $item->get());
+        return in_array($name, (array) $item->get()) || !parent::has($name);
     }
 
     /**
