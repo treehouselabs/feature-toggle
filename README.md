@@ -63,10 +63,10 @@ default:
        }
    }
 
-   $toggleCollection = new SessionFeatureToggleCollection();
+   $toggleCollection = new CacheFeatureToggleCollection();
    $toggleCollection->setCacheItemPool($psr6CacheItemPool);
 
-   // Overwrite the FeatureToggleCollection with the SessionFeatureToggleCollection in test env
+   // Overwrite the FeatureToggleCollection with the CacheFeatureToggleCollection in test env
    new Feature($toggleCollection);
 ```
 

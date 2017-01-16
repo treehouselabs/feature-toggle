@@ -5,7 +5,7 @@ namespace TreeHouse\FeatureToggle\Bridge\Behat;
 use Psr\Cache\CacheItemPoolInterface;
 use TreeHouse\FeatureToggle\FeatureToggleCollection;
 
-class SessionFeatureToggleCollection extends FeatureToggleCollection
+class CacheFeatureToggleCollection extends FeatureToggleCollection
 {
     /**
      * @var CacheItemPoolInterface
