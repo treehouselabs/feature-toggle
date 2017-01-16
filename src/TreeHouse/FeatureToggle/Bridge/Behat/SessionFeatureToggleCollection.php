@@ -19,7 +19,7 @@ class SessionFeatureToggleCollection extends FeatureToggleCollection
     {
         $item = $this->cacheItemPool->getItem('feature-toggles');
 
-        return in_array($name, $item->get());
+        return in_array($name, (array) $item->get()) || !parent::has($name);
     }
 
     /**
