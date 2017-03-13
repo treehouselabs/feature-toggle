@@ -17,9 +17,6 @@ composer require treehouselabs/feature-toggle
 
 ## Usage
 
-
-### Simple 
-
 ```php
 $features = new FeatureToggleCollection();
 $features->registerToggle(
@@ -31,73 +28,6 @@ if ($features->isEnabled('feature-x')) {
     // perform stuff for feature-x
 }
 
-```
-
-### Symfony application
-
-In app/config/services.yml add
-
-```yaml
-services:
-  feature_toggles.collection:
-    class: TreeHouse\FeatureToggle\FeatureToggleCollection
-  
-  feature_toggles.toggle.dont_allow:
-    class: TreeHouse\FeatureToggle\BooleanFeatureToggle
-    arguments: [false]
-    tags:
-      - { name: feature_toggle, alias: 'feature-x' }
-      
-  app.twig_extension.feature_toggle:
-     class: TreeHouse\FeatureToggle\Bridge\Twig\FeatureToggleExtension
-     arguments:
-       - '@feature_toggles.collection'
-     tags:
-       - { name: twig.extension }   
-```
-
-In composer.json autoload the shortcut function (so you don't have to inject the FeatureCollection everywhere)
-
-```json
-{
-  "autoload": {
-    "files": ["vendor/treehouselabs/feature-toggle/src/TreeHouse/FeatureToggle/Bridge/HttpKernel/functions.php"]
-  }
-}
-```
-
-Register compiler pass in your AppBunde.php
-
-```php
-use TreeHouse\FeatureToggle\Bridge\DependencyInjection\RegisterFeatureTogglesCompilerPass;
-
-class AppBundle extends Bundle
-{
-    ...
-    public function build(ContainerBuilder $container)
-    {
-        ...
-        $container->addCompilerPass(new RegisterFeatureTogglesCompilerPass('feature_toggles.collection'));
-        ...
-    }
-    ...
-}
-```
-
-Check feature from any php file in your symfony project:
-
-```php
-if (\TreeHouse\FeatureToggle\Bridge\HttpKernel\toggle('feature-x')) {
-    // perform stuff for feature-x
-}
-```
-
-Or in your twig templates with:
-
-```twig
-{% if toggle('feature-x') %}
-  Do stuff
-{% endif %}
 ```
 
 ### Behat context

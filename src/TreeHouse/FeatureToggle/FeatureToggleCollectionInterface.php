@@ -13,8 +13,6 @@ interface FeatureToggleCollectionInterface
     /**
      * @param string $name
      * @param array  $context
-     *
-     * @return bool
      */
     public function isEnabled($name, array $context = []);
 
