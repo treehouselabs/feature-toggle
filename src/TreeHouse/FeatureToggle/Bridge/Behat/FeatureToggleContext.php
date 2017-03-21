@@ -13,7 +13,7 @@ class FeatureToggleContext implements Context
     protected $cacheItemPool;
 
     /**
-     * @var array
+     * @var bool[]
      */
     protected $toggles = [];
 
@@ -27,20 +27,24 @@ class FeatureToggleContext implements Context
 
     /**
      * @Given /^the feature toggle "([^"]*)" is enabled$/
+     *
+     * @param string $name
      */
     public function theFeatureToggleIsEnabled($name)
     {
-        $this->toggles[] = $name;
+        $this->toggles[$name] = true;
 
         $this->updateFeatureToggleCollection($this->toggles);
     }
 
     /**
      * @Given /^the feature toggle "([^"]*)" is disabled$/
+     *
+     * @param string $name
      */
     public function theFeatureToggleIsDisabled($name)
     {
-        $this->toggles = array_diff($this->toggles, [$name]);
+        $this->toggles[$name] = false;
 
         $this->updateFeatureToggleCollection($this->toggles);
     }
