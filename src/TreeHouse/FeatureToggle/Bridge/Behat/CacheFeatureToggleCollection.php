@@ -19,7 +19,10 @@ class CacheFeatureToggleCollection extends FeatureToggleCollection
     {
         $item = $this->cacheItemPool->getItem('feature-toggles');
 
-        return in_array($name, (array) $item->get()) || !parent::has($name);
+        /** @var bool[] $toggles */
+        $toggles = (array) $item->get();
+
+        return (isset($toggles[$name]) && $toggles[$name]) || parent::isEnabled($name);
     }
 
     /**
