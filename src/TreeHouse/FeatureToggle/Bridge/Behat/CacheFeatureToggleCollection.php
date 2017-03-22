@@ -22,7 +22,11 @@ class CacheFeatureToggleCollection extends FeatureToggleCollection
         /** @var bool[] $toggles */
         $toggles = (array) $item->get();
 
-        return (isset($toggles[$name]) && $toggles[$name]) || parent::isEnabled($name);
+        if (isset($toggles[$name])) {
+            return $toggles[$name];
+        }
+
+        return parent::isEnabled($name);
     }
 
     /**
